@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navd_home"
+            android:icon="@drawable/home"
+            android:title="Home" />
+
+        <item
+            android:id="@+id/navd_plan"
+            android:icon="@drawable/plan"
+            android:title="Plan" />
+
+        <item
+            android:id="@+id/navd_recipe"
+            android:icon="@drawable/recipe"
+            android:title="Recipe" />
+
+        <item
+            android:id="@+id/navd_progress"
+            android:icon="@drawable/progress"
+            android:title="Progress" />
+
+        <item
+            android:id="@+id/navd_googlefit"
+            android:icon="@drawable/googlefit"
+            android:title="Connect to GoogleFit" />
+    </group>
+
+
+    <item android:title="Calculator">
+        <menu>
+
+            <group android:checkableBehavior="single">
+
+                <item
+                    android:id="@+id/navd_bmi"
+                    android:icon="@drawable/bmi"
+                    android:title="BMI" />
+
+                <item
+                    android:id="@+id/navd_fat"
+                    android:icon="@drawable/fatcalculator"
+                    android:title="Fat Calculator" />
+
+                <item
+                    android:id="@+id/navd_calorieC"
+                    android:icon="@drawable/caloriecalculator"
+                    android:title="Calorie Calculator" />
+            </group>
+        </menu>
+    </item>
+
+
+    <item android:title="other">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/navd_profile"
+                    android:icon="@drawable/profile"
+                    android:title="My Profile" />
+
+                <item
+                    android:id="@+id/navd_help"
+                    android:icon="@drawable/help"
+                    android:title="Help" />
+
+                <item
+                    android:id="@+id/navd_feedback"
+                    android:icon="@drawable/feedback"
+                    android:title="Feedback" />
+
+                <item
+                    android:id="@+id/navd_abtus"
+                    android:icon="@drawable/aboutus"
+                    android:title="About Us" />
+
+                <item
+                    android:id="@+id/navd_logout"
+                    android:icon="@drawable/logout"
+                    android:title="Logout" />
+            </group>
+        </menu>
+    </item>
+</menu>
