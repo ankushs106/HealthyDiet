@@ -61,7 +61,7 @@
         android:layout_marginRight="20dp"
         android:background="@drawable/edit"
         android:drawablePadding="10dp"
-        android:hint="Enter height in ft"
+        android:hint="Enter height in cm"
         android:inputType="text"
         android:maxLines="1"
         android:padding="20dp"

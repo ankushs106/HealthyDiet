@@ -1,6 +1,7 @@
 package com.example.healthyme_app;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
@@ -8,7 +9,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +18,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -29,18 +28,18 @@ import com.ibm.cloud.sdk.core.http.HttpMediaType;
 import com.ibm.cloud.sdk.core.http.Response;
 import com.ibm.cloud.sdk.core.http.ServiceCall;
 import com.ibm.cloud.sdk.core.security.IamAuthenticator;
+import com.ibm.watson.assistant.v2.Assistant;
+import com.ibm.watson.assistant.v2.model.CreateSessionOptions;
 import com.ibm.watson.assistant.v2.model.DialogNodeOutputOptionsElement;
+import com.ibm.watson.assistant.v2.model.MessageInput;
+import com.ibm.watson.assistant.v2.model.MessageOptions;
+import com.ibm.watson.assistant.v2.model.MessageResponse;
 import com.ibm.watson.assistant.v2.model.RuntimeResponseGeneric;
+import com.ibm.watson.assistant.v2.model.SessionResponse;
 import com.ibm.watson.developer_cloud.android.library.audio.MicrophoneHelper;
 import com.ibm.watson.developer_cloud.android.library.audio.MicrophoneInputStream;
 import com.ibm.watson.developer_cloud.android.library.audio.StreamPlayer;
 import com.ibm.watson.developer_cloud.android.library.audio.utils.ContentType;
-import com.ibm.watson.assistant.v2.Assistant;
-import com.ibm.watson.assistant.v2.model.CreateSessionOptions;
-import com.ibm.watson.assistant.v2.model.MessageInput;
-import com.ibm.watson.assistant.v2.model.MessageOptions;
-import com.ibm.watson.assistant.v2.model.MessageResponse;
-import com.ibm.watson.assistant.v2.model.SessionResponse;
 import com.ibm.watson.speech_to_text.v1.SpeechToText;
 import com.ibm.watson.speech_to_text.v1.model.RecognizeOptions;
 import com.ibm.watson.speech_to_text.v1.model.SpeechRecognitionResults;
@@ -52,7 +51,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatBot extends AppCompatActivity {
+public class ChatBot extends Activity {
 
 
     private RecyclerView recyclerView;

@@ -2,14 +2,9 @@ package com.example.healthyme_app;
 
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,10 +13,6 @@ import android.widget.Toast;
 //import io.kommunicate.KmConversationBuilder;
 //import io.kommunicate.callbacks.KmCallback;
 //import io.kommunicate.users.KMUser;
-import android.app.Activity;
-
-import com.google.firebase.installations.local.PersistedInstallation;
-import com.google.firebase.messaging.FirebaseMessagingService;
 
 
 public class Register extends Activity {
@@ -88,14 +79,6 @@ public class Register extends Activity {
 
 
 
-
-        Intent notifyIntent = new Intent(this,Register.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast
-                (getApplicationContext(), 2, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),
-                6000 , pendingIntent);
 
         //findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
            // @Override

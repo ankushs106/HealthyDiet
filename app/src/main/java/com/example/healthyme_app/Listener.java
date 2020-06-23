@@ -24,8 +24,8 @@ public class Listener {
 	 */
 	 public void onFoodResponse(Food food) {
 		System.out.println("ResponseListener onFoodResponse");
-		 Log.e("","FOOD NAME: " + food.getName());
-		 Log.e("","FOOD NAME: " + food.getServings());
+		 //Log.e("","FOOD NAME: " + food.getName());
+		 //Log.e("","FOOD NAME: " + food.getServings());
 
 	 }
 	

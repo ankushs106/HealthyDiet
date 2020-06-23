@@ -76,7 +76,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:text="@string/Track"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="28sp">
 
                     </TextView>
@@ -109,8 +109,10 @@
                         android:id="@+id/textView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="3dp"
                         android:text="@string/cal1"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp">
 
                     </TextView>
@@ -121,7 +123,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:text="@string/cal2"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp">
 
                     </TextView>
@@ -150,7 +152,7 @@
                             android:layout_marginEnd="200dp"
                             android:layout_marginBottom="23dp"
                             android:text="@string/pro"
-                            android:textColor="@color/colorAccent"
+                            android:textColor="@color/colorPrimaryDark"
                             android:textSize="22sp"></TextView>
 
                         <ProgressBar
@@ -174,7 +176,7 @@
                             android:layout_marginEnd="10dp"
                             android:layout_marginBottom="40dp"
                             android:text="@string/carbs"
-                            android:textColor="@color/colorAccent"
+                            android:textColor="@color/colorPrimaryDark"
                             android:textSize="22sp">
 
                         </TextView>
@@ -204,7 +206,7 @@
                             android:layout_marginEnd="102dp"
                             android:layout_marginBottom="41dp"
                             android:text="@string/fat"
-                            android:textColor="@color/colorAccent"
+                            android:textColor="@color/colorPrimaryDark"
                             android:textSize="22sp">
 
                         </TextView>
@@ -237,7 +239,7 @@
                             android:textColor="@color/black" />
 
                         <TextView
-                            android:id="@+id/carb"
+                            android:id="@+id/carbb"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -248,7 +250,7 @@
                             android:textColor="@color/black" />
 
                         <TextView
-                            android:id="@+id/fatb"
+                            android:id="@+id/carbb"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -344,6 +346,7 @@
 
                         <Button
                             android:id="@+id/lunch"
+                            android:onClick="searchFood"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -500,26 +503,27 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.bottomnavigation.BottomNavigationView
+                        android:id="@+id/bottom_navigator"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        app:itemBackground="@color/colorPrimaryDark"
+                        app:itemTextColor="@color/black"
+                        app:menu="@menu/bottom_nav_menu">
+
+                    </com.google.android.material.bottomnavigation.BottomNavigationView>
+                </RelativeLayout>
+
 
             </LinearLayout>
 
 
         </ScrollView>
     </LinearLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            app:itemBackground="@color/colorAccent"
-            app:itemTextColor="@color/black"
-            app:menu="@menu/bottom_nav_menu">
-
-        </com.google.android.material.bottomnavigation.BottomNavigationView>
-    </RelativeLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>

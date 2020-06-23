@@ -1,6 +1,7 @@
 
 package com.example.healthyme_app;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -14,13 +15,10 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
-import com.fatsecret.platform.model.CompactFood;
 import com.fatsecret.platform.model.CompactRecipe;
-import com.fatsecret.platform.model.Food;
 import com.fatsecret.platform.model.Recipe;
 import com.fatsecret.platform.services.RequestBuilder;
 import com.fatsecret.platform.services.Response;
-import com.fatsecret.platform.utils.FoodUtility;
 import com.fatsecret.platform.utils.RecipeUtility;
 
 import org.json.JSONArray;
@@ -30,6 +28,9 @@ import org.json.JSONObject;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+//import com.example.healthyme_app.RequestBuilder;
+//import com.fatsecret.platform.services.Response;
 
 /**
  * This class helps in sending requests to fatsecret rest api on android
@@ -56,7 +57,7 @@ public class Request {
 
 	/**
 	 * Supported Methods
-	 * 
+	 *
 	 */
 	public interface Method {
 		int SEARCH_FOODS = 1;
@@ -67,21 +68,21 @@ public class Request {
 
 	/**
 	 * Returns the food items at zeroth page number based on the query
-	 * 
+	 *
 	 * @param queue			the request queue for android requests
 	 * @param query			search terms for querying food items
 	 */
-	public void searchFoods(RequestQueue queue, String query) {
+	/*public void searchFoods(RequestQueue queue, String query) {
 		searchFoods(queue, query, 0);
 	}
 
 	/**
 	 * Returns the food items at a particular page number based on the query
-	 * 
+	 *
 	 * @param queue			the request queue for android requests
 	 * @param query			search terms for querying food items
 	 * @param pageNumber	page Number to search the food items
-	 */
+
 	public void searchFoods(RequestQueue queue, String query, int pageNumber) {
 
 		try {
@@ -90,6 +91,55 @@ public class Request {
 		} catch (Exception e) {
 			System.out.println("Exception: " + e.getMessage());
 		}
+	}
+*/
+
+	String brand;
+	int i=1;
+	public void searchFoods(RequestQueue queue,String query,  int i) {
+		new  AsyncTask<String, String, String>() {
+			FatSecretSearch mFatSecretSearch = new FatSecretSearch(); // method.search
+
+			@Override
+			protected String doInBackground(String... arg0) {
+				JSONObject food = mFatSecretSearch.searchFood(query, i);
+				JSONArray FOODS_ARRAY;
+				try{
+					if (food != null) {
+					FOODS_ARRAY = food.getJSONArray("food");
+					if (FOODS_ARRAY != null) {
+						for (int i = 0; i < FOODS_ARRAY.length(); i++) {
+							JSONObject food_items = FOODS_ARRAY.optJSONObject(i);
+							String food_name = food_items.getString("food_name");
+							String food_description = food_items.getString("food_description");
+							String[] row = food_description.split("-");
+							String id = food_items.getString("food_type");
+							if (id.equals("Brand")) {
+								brand = food_items.getString("brand_name");
+							}
+							if (id.equals("Generic")) {
+								brand = "Generic";
+							}
+							String food_id = food_items.getString("food_id");
+							//mItem.add(new Item(food_name, row[1].substring(1),
+								//	"" + brand, food_id));
+							Log.e("",food_id);
+						}
+					}
+				}
+			} catch (JSONException exception) {
+				return "Error";
+			}
+				return "";
+			}
+
+			@Override
+			protected void onPostExecute(String result) {
+				super.onPostExecute(result);
+				if (result.equals("Error"))
+					Log.e("","no ite found");
+			}
+		}.execute();
 	}
 
 	/**
@@ -162,88 +212,124 @@ public class Request {
 	public void getResponse(RequestQueue queue, String apiUrl, final int method) {
 		try {
 			URL url = new URL(apiUrl);
-
+			Log.e("asdfghjkl;lkjhgfd",""+url);
 			StringRequest request = new StringRequest(com.android.volley.Request.Method.POST, url.toString(),
 					response -> {
-
-						JSONObject responseJson = new JSONObject();
-						try {
-							responseJson = new JSONObject(response);
-						} catch (JSONException e) {
-							e.printStackTrace();
-						}
 
 						switch(method) {
 
 						case Method.GET_FOOD:
-							JSONObject foodJson = null;
+							//Dashboard2 d=new Dashboard2();
+							//d.getResponse(response);
+                            // Create the root JSONObject from the JSON string.
 							try {
+                            //Get the instance of JSONArray that contains JSONObjects
+							JSONObject responseJson = new JSONObject( response);
+							JSONArray jsonArray = responseJson.optJSONArray("food");
+								JSONObject jsonObject=null;
+                            //Iterate the jsonArray and print the info of JSONObjects
+                            for(int i=0; i < 1; i++){
+
+                                    jsonObject = jsonArray.getJSONObject(i);
+                                }
+
+                                int id = Integer.parseInt(jsonObject.optString("food_id").toString());
+                                String name = jsonObject.optString("food_type").toString();
+                                float salary = Float.parseFloat(jsonObject.optString("brand_name").toString());
+							} catch (JSONException e) {
+								e.printStackTrace();
+							}
+
+
+                            /*JSONObject foodJson = null;
+							/*try {
 								foodJson = responseJson.getJSONObject("food");
 							} catch (JSONException e) {
 								e.printStackTrace();
 							}
-							Food food = FoodUtility.parseFoodFromJSONObject(foodJson);
+							//Food food = FoodUtility.parseFoodFromJSONObject(foodJson);
+							*/
+                            /*Food food=null;
+							JSONObject FOODS_ARRAY=null;
+							try {
+								food = FoodUtility.parseFoodFromJSONObject(foodJson);
+							}
+							catch (Exception e)
+							{
+								e.printStackTrace();
+							}
+							try {
+								 FOODS_ARRAY = foodJson.getJSONObject("food");
+								 Log.e("", String.valueOf(FOODS_ARRAY));
+							} catch (JSONException e) {
+								e.printStackTrace();
+							}
 
+							for (int j = 0; j < 1; j++) {
+								//JSONObject food_items = FOODS_ARRAY.optJSONObject(j);
+								try {
+									String food_name = FOODS_ARRAY.getString("brand_name");
+									Log.e("",food_name);
+								} catch (JSONException e) {
+									e.printStackTrace();
+								}
+								String food_description = null;
+								try {
+									food_description = FOODS_ARRAY.getString("food_name");
+								} catch (JSONException e) {
+									e.printStackTrace();
+								}
+								String[] row = food_description.split("-");
+								int id = 0;
+								try {
+									id = FOODS_ARRAY.getInt("food_id");
+								} catch (JSONException e) {
+									e.printStackTrace();
+								}
+								Log.e("oooooooo", String.valueOf(id));
+
+								String food_id = null;
+								try {
+									food_id = FOODS_ARRAY.getString("food_type");
+								} catch (JSONException e) {
+									e.printStackTrace();
+								}
+								Log.e("oooooooooooo",food_id);
+								//mItem.add(new ClipData.Item(food_name, row[1].substring(1),
+								//	"" + brand, food_id));
+							}
 							responseListener.onFoodResponse(food);
-
+                            */
 							break;
 
 						case Method.SEARCH_FOODS:
 							//Dashboard2 d=new Dashboard2();
 							//d.getResponse(response);
-							JSONObject foods = null;
 							try {
-								foods = responseJson.getJSONObject("foods");
-							} catch (JSONException e) {
-								e.printStackTrace();
-							}
-
-
-							int fMaxResults = 0;
-							try {
-								fMaxResults=foods.getInt("max_results");
-							} catch (JSONException e) {
-								e.printStackTrace();
-							}
-
-							int fTotalResults = 0;
-							try {
-								fTotalResults = foods.getInt("total_results");
-							} catch (JSONException e) {
-								e.printStackTrace();
-							}
-							int fPageNumber = 0;
-							try {
-								fPageNumber = foods.getInt("page_number");
-							} catch (JSONException e) {
-								e.printStackTrace();
-							}
-
-							List<CompactFood> cfRsults = new ArrayList<CompactFood>();
-
-							if(fTotalResults > fMaxResults * fPageNumber) {
-								JSONArray foodArray = null;
-								try {
-									foodArray = foods.getJSONArray("food");
-								} catch (JSONException e) {
-									e.printStackTrace();
+								JSONObject responseJson = new JSONObject(response);
+								JSONObject json=responseJson.getJSONObject("foods");
+								Log.e("okayyyyy", String.valueOf(json));
+								JSONArray foods=responseJson.getJSONArray("foods");
+								//JSONObject foods = responseJson.getJSONObject("foods");
+								Log.e("okayyyyy", String.valueOf(foods));
+								for(int i=0; i < foods.length(); i++) {
+									JSONObject j=foods.getJSONObject(i);
+									JSONArray foodArray = j.getJSONArray("food");
+									Log.e("kjhgfdcvbj", String.valueOf(foodArray));
 								}
-								cfRsults = FoodUtility.parseCompactFoodListFromJSONArray(foodArray);
+								//responseListener.onFoodResponse(json);
+
 							}
-
-							Response<CompactFood> foodsResponse = new Response<CompactFood>();
-							foodsResponse.setMaxResults(fMaxResults);
-							foodsResponse.setPageNumber(fPageNumber);
-							foodsResponse.setTotalResults(fTotalResults);
-							foodsResponse.setResults(cfRsults);
-
-							responseListener.onFoodListRespone(foodsResponse);
+							catch (JSONException e) {
+								e.printStackTrace();
+							}
 
 							break;
 
 						case Method.GET_RECIPE:
 							JSONObject recipeJson = null;
 							try {
+								JSONObject responseJson = new JSONObject(response);
 								recipeJson = responseJson.getJSONObject("recipe");
 							} catch (JSONException e) {
 								e.printStackTrace();
@@ -257,6 +343,7 @@ public class Request {
 						case Method.SEARCH_RECIPES:
 							JSONObject recipes = new JSONObject();
 							try {
+								JSONObject responseJson = new JSONObject(response);
 								recipes = responseJson.getJSONObject("recipes");
 							} catch (JSONException e) {
 								e.printStackTrace();
@@ -290,10 +377,13 @@ public class Request {
 								} catch (JSONException e) {
 									e.printStackTrace();
 								}
-								crResults = RecipeUtility.parseCompactRecipeListFromJSONArray(recipeArray);
+								//crResults = RecipeUtility.parseCompactRecipeListFromJSONArray(recipeArray);
+								crResults=RecipeUtility.parseCompactRecipeListFromJSONArray(recipeArray);
 							}
 
+
 							Response<CompactRecipe> recipesResponse = new Response<CompactRecipe>();
+
 							recipesResponse.setMaxResults(5);
 							recipesResponse.setPageNumber(1);
 							recipesResponse.setTotalResults(5);

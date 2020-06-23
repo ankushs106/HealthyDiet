@@ -22,63 +22,100 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Dashboard2 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+//import com.android.volley.Request;
 
-    Button brekfst, lunch, dinner;
+//import com.fatsecret.platform.services.android.Request;
+
+public class Dashboard2 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
+    Button brekfst,lunch,dinner;
     private RequestQueue queue;
 
     //variables
-    static final float END_SCALE = 0.7f;
+    static final float END_SCALE=0.7f;
     NavigationView navigationView;
     DrawerLayout drawerLayout;
     ImageView menuIcon;
     LinearLayout contentView;
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_dashboard2);
         /*.................hooks...............*/
 
-        drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_drawer_view);
-        menuIcon = findViewById(R.id.menu_icon);
-        contentView = findViewById(R.id.content);
+        drawerLayout=findViewById(R.id.drawer_layout);
+        navigationView=findViewById(R.id.nav_drawer_view);
+        menuIcon=findViewById(R.id.menu_icon);
+        contentView=findViewById(R.id.content);
         navigationDrawer();
 
 
         final String key = "fb752dda3f984c43826465a4cb2fc818";
         final String secret = "18e4eed8c4d5401c8ca93b0669bb7893";
-
-        final String query = "milk";
-
-
-        brekfst = (findViewById(R.id.breakfast));
-        lunch = (findViewById(R.id.lunch));
-        dinner = (findViewById(R.id.dinner));
+        final String query = "pasta";
+        final Listener listener = new Listener();
         final String url = "http://platform.fatsecret.com/rest/server.api";
 
+        brekfst=(findViewById(R.id.breakfast));
+        lunch=(findViewById(R.id.lunch));
+        dinner=(findViewById(R.id.dinner));
 
+        queue = Volley.newRequestQueue(this);
         brekfst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+/*
+                // cancelling all requests about this search if in queue
+                queue.cancelAll("");
+
+                // first StringRequest: getting items searched...txtSearch.getText().toString()
+                StringRequest stringRequest = searchNameStringRequest("milk");
+                stringRequest.setTag("TAG_SEARCH_NAME");
+
+                // executing the request (adding to queue)
+                queue.add(stringRequest);
+                     */
+                Intent i = new Intent(Dashboard2.this, SearchFood.class);
+                startActivity(i);
+            }
+        });
+
+        lunch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               /* final String key = "fb752dda3f984c43826465a4cb2fc818";
+                final String secret = "18e4eed8c4d5401c8ca93b0669bb7893";
+                final String query = "milk";
+                final RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
                 Listener listener = new Listener();
 
-                Request req = new Request(key, secret, listener);
+                Request req = new Request(key,query,listener);
 
                 //This response contains the list of food items at zeroth page for your query
                 req.searchFoods(requestQueue, query, 1);
-                //req.searchRecipes(requestQueue,query);
-                //req.getFood(requestQueue,query);
+                //req.searchFoods(requestQueue,query);*/
+
+                Intent i = new Intent(Dashboard2.this, SearchFood.class);
+                startActivity(i);
+               }
+        });
+
+        dinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Dashboard2.this, SearchFood.class);
+                startActivity(i);
+
+
             }
         });
+
 
     }
 
@@ -157,56 +194,90 @@ public class Dashboard2 extends AppCompatActivity implements NavigationView.OnNa
                 Boolean value = sp.getBoolean("logged", false);
                 if (value) {
 
-                    item.setTitle("Login");
                     SharedPreferences.Editor editor = sp.edit();
                     editor.remove("logged");
                     editor.commit();
                     Toast.makeText(getApplicationContext(), "Logging out", Toast.LENGTH_LONG).show();
                     i = new Intent(Dashboard2.this, Dashboard2.class);
                     startActivity(i);
+
                 } else {
-                    item.setTitle("Logout");
+
                     i = new Intent(Dashboard2.this, login.class);
                     startActivity(i);
                 }
-
+                return true;
             case R.id.navd_help:
                 i = new Intent(Dashboard2.this, ChatBot.class);
                 startActivity(i);
+                return true;
+            case R.id.navd_bmi:
+                i = new Intent(Dashboard2.this, BmiCalculator.class);
+                startActivity(i);
+                return true;
+            case R.id.navd_fat:
+                i = new Intent(Dashboard2.this, FatCalculator.class);
+                startActivity(i);
+                return true;
+            case R.id.navd_feedback:
+                i = new Intent(Dashboard2.this, FeedBack.class);
+                startActivity(i);
+                return true;
+            case R.id.navd_profile:
+                i = new Intent(Dashboard2.this, Profile.class);
+                startActivity(i);
+                return true;
+           /* case R.id.navd_abtus:
+                i = new Intent(Dashboard2.this, Plans.class);
+                startActivity(i);
+                return true;*/
+            case R.id.navd_plan:
+                i = new Intent(Dashboard2.this, Plans.class);
+                startActivity(i);
+                return true;
+            case R.id.navd_progress:
+                i = new Intent(Dashboard2.this, User_Progress.class);
+                startActivity(i);
+                return true;
+            case R.id.navd_recipe:
+                i = new Intent(Dashboard2.this, recipes.class);
+                startActivity(i);
+                return true;
         }
 
+                if (id == R.id.navigation_home) {
+                    i = new Intent(Dashboard2.this, Dashboard2.class);
+                    startActivity(i);
+                } else if (id == R.id.navigation_plan) {
+                    i = new Intent(this, Plans.class);
+                    startActivity(i);
+                } else if (id == R.id.navigation_progress) {
+                    i = new Intent(this, Progress.class);
+                    startActivity(i);
+                } else if (id == R.id.navigation_Recipe) {
+                    i = new Intent(this, recipes.class);
+                    startActivity(i);
+                }
 
-        if (id == R.id.navigation_home) {
-            i = new Intent(this, Dashboard2.class);
-            startActivity(i);
-        } else if (id == R.id.navigation_plan) {
-            i = new Intent(this, GoogleFitTracker.class);
-            startActivity(i);
-        } else if (id == R.id.navigation_progress) {
-            i = new Intent(this, GoogleFitTracker.class);
-            startActivity(i);
-        } else if (id == R.id.navigation_Recipe) {
-            i = new Intent(this, GoogleFitTracker.class);
-            startActivity(i);
-        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
 
+
     public void getResponse(String response) {
         try{
+            Log.e("oooooooooooo",""+response);
             JSONObject jsonObject = null;
             try{jsonObject = new JSONObject(response);}catch(JSONException e){e.printStackTrace();}
-            final JSONObject jsonObjectResult = jsonObject.optJSONObject("result");
-            final JSONObject jsonObjectFoods = jsonObjectResult.optJSONObject("foods");
-            final JSONArray jsonArrayFood = jsonObjectFoods.optJSONArray("food");
-            if(jsonArrayFood!=null && jsonArrayFood.length()>0){
-                for (int i = 0 ;i < jsonArrayFood.length();i++){
-                    final JSONObject jsonObjectFood = jsonArrayFood.optJSONObject(i);
+            final JSONObject jsonObjectResult = jsonObject.optJSONObject("foods");
+            final JSONObject jsonObjectFoods = jsonObjectResult.optJSONObject("food");
+            if(jsonObjectFoods!=null && jsonObjectFoods.length()>0){
+                for (int i = 0 ;i < jsonObjectFoods.length();i++){
+                    final JSONObject jsonObjectFood = jsonObjectFoods.optJSONObject(String.valueOf(i));
                     if(jsonObjectFood!=null && jsonObjectFood.length()>0){
-                        Log.e("",jsonObjectFood.getString("food_description"));
+                        Log.e("ooooooooooooooooooooooo",jsonObjectFood.getString("food_type"));
                     }
                 }
             }

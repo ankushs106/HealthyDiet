@@ -9,8 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import static androidx.constraintlayout.widget.Constraints.TAG;
-
 public class CheckBMI extends Activity {
     EditText eage,eweight,eheight;
     Spinner s1,s2;
@@ -33,16 +31,17 @@ public class CheckBMI extends Activity {
             @Override
             public void onClick(View v) {
                 int age=Integer.parseInt(eage.getText().toString());
-                Log.d(TAG, "age: "+age);
-                int weight=Integer.parseInt(eweight.getText().toString());
-                int height=Integer.parseInt(eheight.getText().toString());
+                Log.d("age", "age: "+age);
 
-                double bmi = ( (double) weight / ( (double) height * (double) height)) ;
+                float height = Float.parseFloat(eheight.getText().toString()) / 100;
+                float weight = Float.parseFloat(eweight.getText().toString());
+
+                float bmi =  weight / ( height *  height) ;
 
                 Intent i=new Intent(CheckBMI.this,CaloriesDisplay.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt("age",age);
-                bundle.putFloat("bmi", (float) bmi);
+                bundle.putFloat("bmi", bmi);
                 bundle.putFloat("weight",(float)weight);
                 bundle.putFloat("height",(float)height);
                 bundle.putString("gender", (String) s2.getSelectedItem());
