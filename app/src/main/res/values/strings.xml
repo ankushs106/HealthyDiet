@@ -31,7 +31,7 @@
     <string name="dinner">Dinner</string>
     <string name="snack">Snack</string>
     <string name="add">ADD</string>
-    <string name="approx">Calorie Recommended</string>
+    <string name="approx">Calories Recommended</string>
 
 
     <string name="fcm_message">FCM Message</string>
@@ -83,15 +83,15 @@
     <string name="diet">DIET PLAN</string>
 
 
-    <string name="very_severely_underweight">Very Severely Underweight</string>
-    <string name="severely_underweight">Severely Underweight </string>
-    <string name="underweight">UnderWeight</string>
-    <string name="normal">Normal</string>
+    <string name="very_severely_underweight">You are very Severely Underweight</string>
+    <string name="severely_underweight">You are severely Underweight </string>
+    <string name="underweight">You are underWeight</string>
+    <string name="normal">You have normal weight</string>
     <string name="recipe">Recipes For You</string>
-    <string name="overweight">OverWeight</string>
-    <string name="obese_class_i">Obese Class I</string>
-    <string name="obese_class_ii">Obese Class II</string>
-    <string name="obese_class_iii">Obese Class III</string>
+    <string name="overweight">You are overWeight</string>
+    <string name="obese_class_i">You fall under Obese Class I category</string>
+    <string name="obese_class_ii">You fall under Obese Class II category</string>
+    <string name="obese_class_iii">You fall under Obese Class III category</string>
 
 
     <string name="select">Select Diet Plan</string>
@@ -107,4 +107,5 @@
 
 
     <string name="search_text"> Search Food</string>
+
 </resources>

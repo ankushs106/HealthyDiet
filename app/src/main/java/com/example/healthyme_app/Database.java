@@ -16,23 +16,21 @@ import java.util.Date;
 
 public class Database extends SQLiteOpenHelper {
     public Database(@Nullable Context context) {
-        super(context, "Diet_Database", null, 12);
+        super(context, "Diet_Database", null, 16);
 
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "create table registered_users(_id INTEGER PRIMARY KEY AUTOINCREMENT,name char,mob_no string,email string,gender char ,height float,weight float,age integer,BMI float,calories float,datetime default current_timestamp,password integer)";
+        String sql = "create table registered_users(_id INTEGER PRIMARY KEY AUTOINCREMENT,name char,mob_no string,email string,gender char ,height float,weight float,age integer,BMI float,calories float,datetime default current_timestamp,password integer,plan_name string)";
         String sql1 = "create table feedback(_id INTEGER PRIMARY KEY AUTOINCREMENT,userid string,topic string,message string,datetime default current_timestamp,FOREIGN KEY(userid) REFERENCES registered_users(mob_no))";
-        String sql2="create table user_consumption(_id INTEGER PRIMARY KEY AUTOINCREMENT,userid string,date default current_date, calories_consumed int,FOREIGN KEY(userid) REFERENCES registered_users(mob_no))";
-        String isql1="insert into user_consumption(userid,date,calories_consumed) values('8552921269','2020-06-19',245)";
-        String isql2="insert into user_consumption(userid,date,calories_consumed) values('8552921269','2020-06-20',245)";
+        String sql2="create table user_consumption(_id INTEGER PRIMARY KEY AUTOINCREMENT,userid string,date default current_date, calories_consumed int,proteins int,fats int,carbs int,FOREIGN KEY(userid) REFERENCES registered_users(mob_no))";
+        String isql1="insert into user_consumption(userid,date,calories_consumed,proteins,fats,carbs) values('8552921269','2020-06-19',245,20,30,24)";
 
         db.execSQL(sql2);
         db.execSQL(sql);
         db.execSQL(sql1);
         db.execSQL(isql1);
-        db.execSQL(isql2);
 
     }
     public boolean check_users(String s2){
@@ -101,13 +99,14 @@ public class Database extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-
+        String d="default";
         contentValues.put("age", age);
         contentValues.put("weight", weight);
         contentValues.put("height", height);
         contentValues.put("gender", gender);
         contentValues.put("bmi", bmi);
         contentValues.put("calories", calories);
+        contentValues.put("plan_name", d);
 
 
         if(db.update("registered_users", contentValues,"mob_no="+userid,null)==0)
@@ -135,7 +134,7 @@ public class Database extends SQLiteOpenHelper {
         return data1;
     }
 
-    public int AddCalories(String userid, int cal){
+    public int AddCalories(String userid, float cal,float pro,float fat,float carb){
         SQLiteDatabase db=this.getReadableDatabase();
         SQLiteDatabase wdb=this.getWritableDatabase();
         Date today=new Date();
@@ -143,19 +142,27 @@ public class Database extends SQLiteOpenHelper {
         SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
         String datee=format.format(today);
         Log.e("",datee);
-        Cursor cursor=db.rawQuery("select calories_consumed,date from user_consumption where userid="+userid,null);
+        Cursor cursor=db.rawQuery("select calories_consumed,proteins,fats,carbs,date from user_consumption where userid="+userid,null);
         int check=0;
        try {
            while (cursor.moveToNext())
            {
-               Log.e("date sql",cursor.getString(1));
-               if(datee.equals(cursor.getString(1)))
+               Log.e("date sql",cursor.getString(4));
+               if(datee.equals(cursor.getString(4)))
             {
                 check=1;
-               cal += cursor.getInt(0);
-               ContentValues contentValues = new ContentValues();
-               contentValues.put("calories_consumed", cal);
-               try {
+                cal += cursor.getInt(0);
+                pro+=cursor.getInt(1);
+                fat+=cursor.getInt(2);
+                carb+=cursor.getInt(3);
+
+                ContentValues contentValues = new ContentValues();
+                contentValues.put("calories_consumed", cal);
+                contentValues.put("proteins", pro);
+                contentValues.put("fats", fat);
+                contentValues.put("carbs", carb);
+
+                try {
                    String[] args = new String[]{datee};
                    if (wdb.update("user_consumption", contentValues, "userid=" + userid + " and date= ?" , args) == 0)
                        count = 0;
@@ -164,6 +171,7 @@ public class Database extends SQLiteOpenHelper {
                }catch (Exception e){
                    e.printStackTrace();
                }
+               break;
            }
                else
                    Log.e("","not found");
@@ -185,6 +193,20 @@ public class Database extends SQLiteOpenHelper {
            e.printStackTrace();;
        }
        return count;
+    }
+
+    public int updatePlan(String plan,String userid,String cal){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put("plan_name", plan);
+        contentValues.put("calories", Float.parseFloat(cal));
+
+        if(db.update("registered_users", contentValues,"mob_no="+userid,null)==0)
+            return 0;
+        else
+            return 1;
+
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

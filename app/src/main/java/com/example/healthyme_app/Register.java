@@ -19,8 +19,8 @@ public class Register extends Activity {
 
     Button btn_register,btn_login;
     EditText name,email,phone,password;
-
     SharedPreferences sp;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,11 @@ public class Register extends Activity {
                                     phone.getText().toString(), password.getText().toString()))
                             {
                                 Toast.makeText(Register.this, "Registered Successfully", Toast.LENGTH_LONG).show();
+                                sp=getApplicationContext().getSharedPreferences("preferences", MODE_PRIVATE);
+                                editor=sp.edit();
+                                editor.putString("userid",phone.getText().toString());
+                                editor.putBoolean("logged",true);
+                                editor.commit();
                                 Intent i = new Intent(getApplicationContext(), CheckBMI.class);
                                 startActivity(i);
                             } else {

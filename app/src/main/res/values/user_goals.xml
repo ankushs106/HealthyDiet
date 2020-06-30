@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="user_goals">
-    <item>Lose weight</item>
-    <item>Gain weight</item>
-    <item >Be fit</item>
+    <item>Lose Weight</item>
+    <item>Gain Weight</item>
+    <item >Maintain Weight</item>
     </array>
 </resources>

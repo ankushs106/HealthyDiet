@@ -1,109 +1,147 @@
 package com.example.healthyme_app;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Intent;
-import android.content.IntentSender;
-import android.media.browse.MediaBrowser;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
-import com.google.android.gms.common.api.GoogleApi;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.data.DataPoint;
-import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataSource;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.data.Value;
-import com.google.android.gms.fitness.request.DataReadRequest;
 import com.google.android.gms.fitness.request.DataSourcesRequest;
 import com.google.android.gms.fitness.request.OnDataPointListener;
 import com.google.android.gms.fitness.request.SensorRequest;
-import com.google.android.gms.fitness.result.DataReadResponse;
 import com.google.android.gms.fitness.result.DataSourcesResult;
-import com.google.android.gms.tasks.Task;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static android.content.ContentValues.TAG;
-import static java.text.DateFormat.getDateInstance;
-import static java.text.DateFormat.getTimeInstance;
+public class GoogleFit extends AppCompatActivity
+{
 
-public class GoogleFit extends Activity {
-    private static final int REQUEST_OAUTH = 1;
-    private static final String AUTH_PENDING = "auth_state_pending";
-    private boolean authInProgress = false;
-    private GoogleApiClient mApiClient;
+    private static final String TAG = "FitActivity";
+    private GoogleApiClient mClient = null;
+    private OnDataPointListener mListener;
 
+    // Create Builder View
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_fit);
+    }
 
-        Calendar cal = Calendar.getInstance();
-        Date now = new Date();
-        cal.setTime(now);
-        long endTime = cal.getTimeInMillis();
-        cal.add(Calendar.WEEK_OF_YEAR, -1);
-        long startTime = cal.getTimeInMillis();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        connectFitness();
+    }
 
-        java.text.DateFormat dateFormat = getDateInstance();
-        Log.i(TAG, "Range Start: " + dateFormat.format(startTime));
-        Log.i(TAG, "Range End: " + dateFormat.format(endTime));
+    private void connectFitness() {
+        if (mClient == null){
+            mClient = new GoogleApiClient.Builder(this)
+                    .addApi(Fitness.SENSORS_API)
+                    .addScope(new Scope(Scopes.FITNESS_LOCATION_READ)) // GET STEP VALUES
+                    .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                                                @Override
+                                                public void onConnected(Bundle bundle) {
+                                                    Log.e(TAG, "Connected!!!");
+                                                    // Now you can make calls to the Fitness APIs.
+                                                    findFitnessDataSources();
 
-        DataReadRequest readRequest;
-                new DataReadRequest.Builder()
-                        // The data request can specify multiple data types to return, effectively
-                        // combining multiple data queries into one call.
-                        // In this example, it's very unlikely that the request is for several hundred
-                        // datapoints each consisting of a few steps and a timestamp.  The more likely
-                        // scenario is wanting to see how many steps were walked per day, for 7 days.
-                        .aggregate(DataType.TYPE_STEP_COUNT_DELTA, DataType.AGGREGATE_STEP_COUNT_DELTA)
-                        // Analogous to a "Group By" in SQL, defines how data should be aggregated.
-                        // bucketByTime allows for a time span, whereas bucketBySession would allow
-                        // bucketing by "sessions", which would need to be defined in code.
-                        .bucketByTime(1, TimeUnit.DAYS)
-                        .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
-                        .build();
-         readRequest = new DataReadRequest.Builder()
-                .aggregate(DataType.TYPE_CALORIES_EXPENDED, DataType.AGGREGATE_CALORIES_EXPENDED)
-                .bucketByActivityType(1, TimeUnit.SECONDS)
-                .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
-                .build();
+                                                }
 
-        Task<DataReadResponse> response = Fitness.getHistoryClient(GoogleFit.this, GoogleSignIn.getLastSignedInAccount(this)).readData(readRequest);
-        List<DataSet> dataSets = response.getResult().getDataSets();
-
-        DataSet dataSet = null;
-        Log.i(TAG, "Data returned for Data type: " + dataSet.getDataType().getName());
-             dateFormat = getTimeInstance();
-
-            for (DataPoint dp : dataSet.getDataPoints()) {
-                Log.i(TAG, "Data point:");
-                Log.i(TAG, "\tType: " + dp.getDataType().getName());
-                Log.i(TAG, "\tStart: " + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
-                Log.i(TAG, "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)));
-                for (Field field : dp.getDataType().getFields()) {
-                    Log.i(TAG, "\tField: " + field.getName() + " Value: " + dp.getValue(field));
-
-            }
+                                                @Override
+                                                public void onConnectionSuspended(int i) {
+                                                    // If your connection to the sensor gets lost at some point,
+                                                    // you'll be able to determine the reason and react to it here.
+                                                    if (i == GoogleApiClient.ConnectionCallbacks.CAUSE_NETWORK_LOST) {
+                                                        Log.i(TAG, "Connection lost.  Cause: Network Lost.");
+                                                    } else if (i
+                                                            == GoogleApiClient.ConnectionCallbacks.CAUSE_SERVICE_DISCONNECTED) {
+                                                        Log.i(TAG,
+                                                                "Connection lost.  Reason: Service Disconnected");
+                                                    }
+                                                }
+                                            }
+                    )
+                    .enableAutoManage(this, 0, new GoogleApiClient.OnConnectionFailedListener() {
+                        @Override
+                        public void onConnectionFailed(ConnectionResult result) {
+                            Log.e(TAG, "!_@@ERROR :: Google Play services connection failed. Cause: " + result.toString());
+                        }
+                    })
+                    .build();
         }
+
+    }
+
+    private void findFitnessDataSources() {
+        Fitness.SensorsApi.findDataSources(
+                mClient,
+                new DataSourcesRequest.Builder()
+                        .setDataTypes(DataType.TYPE_CALORIES_EXPENDED)
+                        .setDataSourceTypes(DataSource.TYPE_DERIVED)
+                        .build())
+                .setResultCallback(new ResultCallback<DataSourcesResult>() {
+                    @Override
+                    public void onResult(DataSourcesResult dataSourcesResult) {
+                        Log.e(TAG, "Result: " + dataSourcesResult.getStatus().toString());
+                        for (DataSource dataSource : dataSourcesResult.getDataSources()) {
+                            Log.e(TAG, "Data source found: " + dataSource.toString());
+                            Log.e(TAG, "Data Source type: " + dataSource.getDataType().getName());
+
+                            //Let's register a listener to receive Activity data!
+                            if (dataSource.getDataType().equals(DataType.TYPE_CALORIES_EXPENDED) && mListener == null) {
+                                Log.i(TAG, "Data source for TYPE_STEP_COUNT_DELTA found!  Registering.");
+
+                                registerFitnessDataListener(dataSource, DataType.TYPE_CALORIES_EXPENDED);
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void registerFitnessDataListener(final DataSource dataSource, DataType dataType) {
+
+
+        // [START register_data_listener]
+        mListener = new OnDataPointListener() {
+            @Override
+            public void onDataPoint(DataPoint dataPoint) {
+                for (Field field : dataPoint.getDataType().getFields()) {
+                    Value val = dataPoint.getValue(field);
+                    Log.e(TAG, "Detected DataPoint field: " + field.getName());
+                    Log.e(TAG, "Detected DataPoint value: " + val);
+
+                }
+            }
+        };
+
+        Fitness.SensorsApi.add(
+                mClient,
+                new SensorRequest.Builder()
+                        .setDataSource(dataSource) // Optional but recommended for custom data sets.
+                        .setDataType(dataType) // Can't be omitted.
+                        .setSamplingRate(1, TimeUnit.SECONDS)
+                        .build(),
+                mListener).setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(Status status) {
+                if (status.isSuccess()) {
+                    Log.i(TAG, "Listener registered!");
+                } else {
+                    Log.i(TAG, "Listener not registered.");
+                }
+            }
+        });
+
     }
 }

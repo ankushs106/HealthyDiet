@@ -10,7 +10,12 @@
         <item
             android:id="@+id/navd_plan"
             android:icon="@drawable/plan"
-            android:title="Plan" />
+            android:title="Plans" />
+
+        <item
+            android:id="@+id/navd_diet_plan"
+            android:icon="@drawable/plan"
+            android:title="My diet plan" />
 
         <item
             android:id="@+id/navd_recipe"
@@ -26,6 +31,11 @@
             android:id="@+id/navd_googlefit"
             android:icon="@drawable/googlefit"
             android:title="Connect to GoogleFit" />
+        <item
+            android:id="@+id/navd_googlefit_connected"
+            android:icon="@drawable/googlefit"
+            android:visible="false"
+            android:title="Connected to GoogleFit" />
     </group>
 
 
@@ -72,9 +82,10 @@
                     android:title="Feedback" />
 
                 <item
-                    android:id="@+id/navd_abtus"
+                    android:id="@+id/navd_login"
+                    android:visible="false"
                     android:icon="@drawable/aboutus"
-                    android:title="About Us" />
+                    android:title="Login" />
 
                 <item
                     android:id="@+id/navd_logout"

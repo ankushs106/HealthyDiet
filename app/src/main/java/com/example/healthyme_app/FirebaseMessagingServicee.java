@@ -48,7 +48,7 @@ public class FirebaseMessagingServicee extends FirebaseMessagingService {
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
         }
-        sendNotification("okkk");
+        sendNotification("Log your food and Stay Healthy!!");
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
     }
@@ -113,7 +113,7 @@ public class FirebaseMessagingServicee extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
                         .setSmallIcon(R.drawable.app_logo)
-                        .setContentTitle(getString(R.string.fcm_message))
+                        .setContentTitle("HealthyMe..")
                         .setContentText(messageBody)
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)

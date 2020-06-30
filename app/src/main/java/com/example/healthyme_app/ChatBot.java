@@ -42,8 +42,6 @@ import com.ibm.watson.developer_cloud.android.library.audio.StreamPlayer;
 import com.ibm.watson.developer_cloud.android.library.audio.utils.ContentType;
 import com.ibm.watson.speech_to_text.v1.SpeechToText;
 import com.ibm.watson.speech_to_text.v1.model.RecognizeOptions;
-import com.ibm.watson.speech_to_text.v1.model.SpeechRecognitionResults;
-import com.ibm.watson.speech_to_text.v1.websocket.BaseRecognizeCallback;
 import com.ibm.watson.text_to_speech.v1.TextToSpeech;
 import com.ibm.watson.text_to_speech.v1.model.SynthesizeOptions;
 
@@ -137,7 +135,7 @@ public class ChatBot extends Activity {
 
             @Override
             public void onLongClick(View view, int position) {
-                recordMessage();
+               // recordMessage();
 
             }
         }));
@@ -151,13 +149,13 @@ public class ChatBot extends Activity {
             }
         });
 
-        btnRecord.setOnClickListener(new View.OnClickListener() {
+       /* btnRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 recordMessage();
             }
         });
-
+*/
         createServices();
         sendMessage();
     };
@@ -181,7 +179,7 @@ public class ChatBot extends Activity {
 
 
     // Speech-to-Text Record Audio permission
-    @Override
+   /* @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
@@ -209,7 +207,7 @@ public class ChatBot extends Activity {
         }
         // if (!permissionToRecordAccepted ) finish();
 
-    }
+    }*/
 
     protected void makeRequest() {
         ActivityCompat.requestPermissions(this,
@@ -328,7 +326,7 @@ public class ChatBot extends Activity {
     }
 
 
-    //Record a message via Watson Speech to Text
+   /* //Record a message via Watson Speech to Text
     private void recordMessage() {
         if (listening != true) {
             capture = microphoneHelper.getInputStream(true);
@@ -401,14 +399,14 @@ public class ChatBot extends Activity {
         });
     }
 
-    private void enableMicButton() {
+   /* private void enableMicButton() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 btnRecord.setEnabled(true);
             }
         });
-    }
+    }*/
 
     private void showError(final Exception e) {
         runOnUiThread(new Runnable() {
@@ -434,7 +432,7 @@ public class ChatBot extends Activity {
     }
 
     //Watson Speech to Text Methods.
-    private class MicrophoneRecognizeDelegate extends BaseRecognizeCallback {
+   /* private class MicrophoneRecognizeDelegate extends BaseRecognizeCallback {
         @Override
         public void onTranscription(SpeechRecognitionResults speechResults) {
             if (speechResults.getResults() != null && !speechResults.getResults().isEmpty()) {
@@ -454,7 +452,7 @@ public class ChatBot extends Activity {
             enableMicButton();
         }
 
-    }
+    }*/
 
 
 }

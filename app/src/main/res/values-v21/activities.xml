@@ -2,8 +2,10 @@
 <resources>
     <array name="activities">
         <item>Select your activity type</item>
-        <item>Low Activity</item>
-        <item>Moderate Activity</item>
-        <item>High Activity</item>
+        <item>Sedentary (little or no exercise)</item>
+        <item>Lightly active (light exercise/sports 1-3 days/week)</item>
+        <item>Moderately active (moderate exercise/sports 3-5 days/week)</item>
+        <item>Very active (hard exercise/sports 6-7 days a week)</item>
+        <item>If you are extra active (very hard exercise/sports or a physical job)</item>
     </array>
 </resources>

@@ -33,10 +33,11 @@ public class CheckBMI extends Activity {
                 int age=Integer.parseInt(eage.getText().toString());
                 Log.d("age", "age: "+age);
 
-                float height = Float.parseFloat(eheight.getText().toString()) / 100;
+                float height = Float.parseFloat(eheight.getText().toString());
+                float h=height/ 100;
                 float weight = Float.parseFloat(eweight.getText().toString());
 
-                float bmi =  weight / ( height *  height) ;
+                float bmi =  weight / ( h *  h) ;
 
                 Intent i=new Intent(CheckBMI.this,CaloriesDisplay.class);
                 Bundle bundle = new Bundle();
