@@ -94,6 +94,7 @@ public class GoogleFitTracker extends Activity implements OnDataPointListener, G
                 .setDataSourceTypes( DataSource.TYPE_RAW )
                 .build();
 
+
         ResultCallback<DataSourcesResult> dataSourcesResultCallback = new ResultCallback<DataSourcesResult>() {
             @Override
             public void onResult(DataSourcesResult dataSourcesResult) {

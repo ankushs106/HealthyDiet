@@ -326,10 +326,7 @@ public class Dashboard2 extends AppCompatActivity implements NavigationView.OnNa
                 i = new Intent(Dashboard2.this, BmiCalculator.class);
                 startActivity(i);
                 return true;
-            case R.id.navd_fat:
-                i = new Intent(Dashboard2.this, FatCalculator.class);
-                startActivity(i);
-                return true;
+
             case R.id.navd_feedback:
                 i = new Intent(Dashboard2.this, FeedBack.class);
                 startActivity(i);

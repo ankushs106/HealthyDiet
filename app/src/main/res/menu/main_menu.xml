@@ -49,15 +49,6 @@
                     android:icon="@drawable/bmi"
                     android:title="BMI" />
 
-                <item
-                    android:id="@+id/navd_fat"
-                    android:icon="@drawable/fatcalculator"
-                    android:title="Fat Calculator" />
-
-                <item
-                    android:id="@+id/navd_calorieC"
-                    android:icon="@drawable/caloriecalculator"
-                    android:title="Calorie Calculator" />
             </group>
         </menu>
     </item>
