@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="350dp"
+    android:layout_alignParentTop="true"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    app:cardCornerRadius="7dp"
+    app:cardElevation="8dp">
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="387dp"
+        android:layout_height="330dp"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+                    <ImageView
+                        android:layout_width="198dp"
+                        android:layout_height="165dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/dinner1">
+
+                    </ImageView>
+
+                    <TextView
+                        android:id="@+id/dtitle1"
+                        android:layout_width="192dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="3dp"
+                        android:text="Masala Peas"
+                        android:textColor="@color/black"
+                        android:textSize="22sp">
+
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/ddescription1"
+                        android:layout_width="369dp"
+                        android:layout_height="70dp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="290 kcl per serving"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

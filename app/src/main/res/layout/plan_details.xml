@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        android:layout_marginTop="50dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="8dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="195dp"
+            android:padding="10dp">
+
+
+            <TextView
+                android:layout_width="88dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="81dp"
+                android:layout_marginEnd="40dp"
+                android:layout_toEndOf="@+id/date"
+                android:text="Calories"
+                android:textSize="18sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/cal"
+                android:layout_width="88dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="132dp"
+                android:text="2289 kcl"
+                android:textSize="18sp">
+
+            </TextView>
+
+
+            <TextView
+                android:id="@+id/label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+
+                android:layout_marginStart="10dp"
+                android:text="12 June 2020"
+                android:textSize="22sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/pro"
+                android:layout_width="106dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="245dp"
+                android:layout_marginBottom="103dp"
+                android:text="Proteins"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="22sp" />
+
+            <TextView
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="103dp"
+                android:text="@string/carbs"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="22sp">
+
+            </TextView>
+
+
+            <TextView
+                android:layout_width="92dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
+                android:layout_marginEnd="105dp"
+                android:layout_marginBottom="103dp"
+                android:text="fats"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="22sp">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/protein"
+                android:layout_width="100dp"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
+
+                android:layout_marginLeft="10dp"
+
+                android:layout_marginBottom="69dp"
+                android:text="200g left"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/carbb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="39dp"
+                android:layout_marginBottom="72dp"
+                android:text="200g left"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/fat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="165dp"
+                android:layout_marginBottom="72dp"
+                android:text="200g left"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/dlabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="41dp"
+                 />
+
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
